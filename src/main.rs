@@ -15,7 +15,7 @@ async fn main() {
         // `GET /` goes to `root`
         .route("/", get(root))
         // `POST /users` goes to `create_user`
-        .route("/users", post(create_user));
+        .route("/users", get(list_users).post(create_user));
 
     // run our app with hyper, listening globally on port 3000
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await.unwrap();
@@ -41,6 +41,20 @@ async fn create_user(
     // this will be converted into a JSON response
     // with a status code of `201 Created`
     (StatusCode::CREATED, Json(user))
+}
+
+async fn list_users() -> (StatusCode, Json<Vec<User>>) {
+    // insert your application logic here
+    let mut v: Vec<User> = vec![];
+    v.push(User {
+        id: 17,
+        username: "Orlando Bloom".to_string(),
+    });
+    v.push(User {
+        id: 15,
+        username: "Tom Cruise".to_string(),
+    });
+    (StatusCode::OK, Json(v))
 }
 
 // the input to our `create_user` handler

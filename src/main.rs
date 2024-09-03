@@ -34,7 +34,7 @@ async fn create_user(
 ) -> (StatusCode, Json<User>) {
     // insert your application logic here
     let user = User {
-        id: 1337,
+        id: 17,
         username: payload.username,
     };
 
